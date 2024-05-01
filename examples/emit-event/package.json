@@ -1,11 +1,38 @@
 {
+	"author": {
+		"email": "Land@PlayForm.Cloud",
+		"name": "🌆 — Land —",
+		"url": "HTTPS://Land.PlayForm.Cloud"
+	},
+	"bugs": {
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/TauriPluginSingleInstance/issues"
+	},
 	"description": "",
 	"devDependencies": {
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
 		"@tauri-apps/cli": "^1.0.0"
 	},
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/TauriPluginSingleInstance#readme",
+	"keywords": [
+		"land"
+	],
+	"license": "SEE LICENSE IN LICENSE",
 	"main": "index.js",
 	"name": "emit-event",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+HTTPS://github.com/CodeEditorLand/TauriPluginSingleInstance.git"
+	},
 	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
+		"prepublishOnly": "Build 'Source/**/*.ts'",
 		"tauri": "tauri"
-	}
+	},
+	"type": "module",
+	"version": "0.0.1"
 }
