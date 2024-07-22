@@ -1,9 +1,9 @@
 {
-	"name": "app",
-	"description": "",
-	"main": "index.js",
-	"scripts": {},
 	"dependencies": {
 		"@tauri-apps/cli": "2.0.0-beta.22"
-	}
+	},
+	"description": "",
+	"main": "index.js",
+	"name": "app",
+	"scripts": {}
 }
