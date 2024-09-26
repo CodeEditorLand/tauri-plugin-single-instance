@@ -1,11 +1,11 @@
 {
-	"name": "emit-event",
 	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"tauri": "tauri"
-	},
 	"devDependencies": {
 		"@tauri-apps/cli": "2.0.0-rc.16"
+	},
+	"main": "index.js",
+	"name": "emit-event",
+	"scripts": {
+		"tauri": "tauri"
 	}
 }
