@@ -1,11 +1,11 @@
 {
-	"description": "",
-	"devDependencies": {
-		"@tauri-apps/cli": "^1.0.0"
-	},
-	"main": "index.js",
 	"name": "emit-event",
+	"description": "",
+	"main": "index.js",
 	"scripts": {
 		"tauri": "tauri"
+	},
+	"devDependencies": {
+		"@tauri-apps/cli": "^1.0.0"
 	}
 }
