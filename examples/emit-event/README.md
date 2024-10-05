@@ -1,4 +1,5 @@
 # Tauri Plugin single-instance
+
 ## Emit Event Example
 
 To build and test in development mode run the following:
@@ -13,11 +14,12 @@ npm run tauri dev
 cargo tauri dev
 ```
 
-While the above is running, in a separate terminal window execute the debug target app
+While the above is running, in a separate terminal window execute the debug
+target app
 
 ```sh
 # on linux
-./src-tauri/target/debug/emit-event-app cyan # any css background color should work
+./src-tauri/target/debug/emit-event-app cyan   # any css background color should work
 ./src-tauri/target/debug/emit-event-app "#888" # including hex
 
 # on windows
