@@ -39,8 +39,7 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 	plugin::Builder::new("single-instance")
 		.setup(|app| {
 			let id = dbus_id(app.config());
-			let single_instance_dbus =
-				SingleInstanceDBus { callback:f, app_handle:app.clone() };
+			let single_instance_dbus = SingleInstanceDBus { callback:f, app_handle:app.clone() };
 			let dbus_name = format!("org.{}.SingleInstance", id);
 			let dbus_path = format!("/org/{}/SingleInstance", id);
 
@@ -88,8 +87,7 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 
 pub fn destroy<R:Runtime, M:Manager<R>>(manager:&M) {
 	if let Some(connection) = manager.try_state::<ConnectionHandle>() {
-		let dbus_name =
-			format!("org.{}.SingleInstance", dbus_id(manager.config()));
+		let dbus_name = format!("org.{}.SingleInstance", dbus_id(manager.config()));
 		let _ = connection.0.release_name(dbus_name);
 	}
 }

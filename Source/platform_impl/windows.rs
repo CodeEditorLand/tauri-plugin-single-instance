@@ -10,15 +10,7 @@ use tauri::{
 	Runtime,
 };
 use windows_sys::Win32::{
-	Foundation::{
-		CloseHandle,
-		GetLastError,
-		ERROR_ALREADY_EXISTS,
-		HWND,
-		LPARAM,
-		LRESULT,
-		WPARAM,
-	},
+	Foundation::{CloseHandle, GetLastError, ERROR_ALREADY_EXISTS, HWND, LPARAM, LRESULT, WPARAM},
 	System::{
 		DataExchange::COPYDATASTRUCT,
 		LibraryLoader::GetModuleHandleW,
@@ -64,14 +56,12 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 			let window_name = encode_wide(format!("{}-siw", id));
 			let mutex_name = encode_wide(format!("{}-sim", id));
 
-			let hmutex = unsafe {
-				CreateMutexW(std::ptr::null(), true.into(), mutex_name.as_ptr())
-			};
+			let hmutex =
+				unsafe { CreateMutexW(std::ptr::null(), true.into(), mutex_name.as_ptr()) };
 
 			if unsafe { GetLastError() } == ERROR_ALREADY_EXISTS {
 				unsafe {
-					let hwnd =
-						FindWindowW(class_name.as_ptr(), window_name.as_ptr());
+					let hwnd = FindWindowW(class_name.as_ptr(), window_name.as_ptr());
 
 					if hwnd != 0 {
 						let data = format!(
@@ -88,20 +78,14 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 							cbData:bytes.len() as _,
 							lpData:bytes.as_ptr() as _,
 						};
-						SendMessageW(
-							hwnd,
-							WM_COPYDATA,
-							0,
-							&cds as *const _ as _,
-						);
+						SendMessageW(hwnd, WM_COPYDATA, 0, &cds as *const _ as _);
 						app.exit(0);
 					}
 				}
 			} else {
 				app.manage(MutexHandle(hmutex));
 
-				let hwnd =
-					create_event_target_window::<R>(&class_name, &window_name);
+				let hwnd = create_event_target_window::<R>(&class_name, &window_name);
 				unsafe {
 					SetWindowLongPtrW(
 						hwnd,
@@ -149,8 +133,7 @@ unsafe extern "system" fn single_instance_window_proc<R:Runtime>(
 		WM_COPYDATA => {
 			let cds_ptr = lparam as *const COPYDATASTRUCT;
 			if (*cds_ptr).dwData == WMCOPYDATA_SINGLE_INSTANCE_DATA {
-				let data =
-					CStr::from_ptr((*cds_ptr).lpData as _).to_string_lossy();
+				let data = CStr::from_ptr((*cds_ptr).lpData as _).to_string_lossy();
 				let mut s = data.split("|");
 				let cwd = s.next().unwrap();
 				let args = s.into_iter().map(|s| s.to_string()).collect();
@@ -167,10 +150,7 @@ unsafe extern "system" fn single_instance_window_proc<R:Runtime>(
 	}
 }
 
-fn create_event_target_window<R:Runtime>(
-	class_name:&[u16],
-	window_name:&[u16],
-) -> HWND {
+fn create_event_target_window<R:Runtime>(class_name:&[u16], window_name:&[u16]) -> HWND {
 	unsafe {
 		let class = WNDCLASSEXW {
 			cbSize:std::mem::size_of::<WNDCLASSEXW>() as u32,
@@ -234,21 +214,13 @@ pub fn encode_wide(string:impl AsRef<std::ffi::OsStr>) -> Vec<u16> {
 
 #[cfg(target_pointer_width = "32")]
 #[allow(non_snake_case)]
-unsafe fn SetWindowLongPtrW(
-	hwnd:HWND,
-	index:WINDOW_LONG_PTR_INDEX,
-	value:isize,
-) -> isize {
+unsafe fn SetWindowLongPtrW(hwnd:HWND, index:WINDOW_LONG_PTR_INDEX, value:isize) -> isize {
 	w32wm::SetWindowLongW(hwnd, index, value as _) as _
 }
 
 #[cfg(target_pointer_width = "64")]
 #[allow(non_snake_case)]
-unsafe fn SetWindowLongPtrW(
-	hwnd:HWND,
-	index:WINDOW_LONG_PTR_INDEX,
-	value:isize,
-) -> isize {
+unsafe fn SetWindowLongPtrW(hwnd:HWND, index:WINDOW_LONG_PTR_INDEX, value:isize) -> isize {
 	w32wm::SetWindowLongPtrW(hwnd, index, value)
 }
 
