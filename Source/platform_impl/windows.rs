@@ -53,7 +53,9 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 			let id = &app.config().tauri.bundle.identifier;
 
 			let class_name = encode_wide(format!("{}-sic", id));
+
 			let window_name = encode_wide(format!("{}-siw", id));
+
 			let mutex_name = encode_wide(format!("{}-sim", id));
 
 			let hmutex =
@@ -72,13 +74,17 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 								.unwrap_or_default(),
 							std::env::args().collect::<Vec<String>>().join("|")
 						);
+
 						let bytes = data.as_bytes();
+
 						let cds = COPYDATASTRUCT {
 							dwData:WMCOPYDATA_SINGLE_INSTANCE_DATA,
 							cbData:bytes.len() as _,
 							lpData:bytes.as_ptr() as _,
 						};
+
 						SendMessageW(hwnd, WM_COPYDATA, 0, &cds as *const _ as _);
+
 						app.exit(0);
 					}
 				}
@@ -86,6 +92,7 @@ pub fn init<R:Runtime>(f:Box<SingleInstanceCallback<R>>) -> TauriPlugin<R> {
 				app.manage(MutexHandle(hmutex));
 
 				let hwnd = create_event_target_window::<R>(&class_name, &window_name);
+
 				unsafe {
 					SetWindowLongPtrW(
 						hwnd,
@@ -111,9 +118,11 @@ pub fn destroy<R:Runtime, M:Manager<R>>(manager:&M) {
 	if let Some(hmutex) = manager.try_state::<MutexHandle>() {
 		unsafe {
 			ReleaseMutex(hmutex.0);
+
 			CloseHandle(hmutex.0);
 		}
 	}
+
 	if let Some(hwnd) = manager.try_state::<TargetWindowHandle>() {
 		unsafe { DestroyWindow(hwnd.0) };
 	}
@@ -127,23 +136,31 @@ unsafe extern "system" fn single_instance_window_proc<R:Runtime>(
 ) -> LRESULT {
 	let data_ptr = GetWindowLongPtrW(hwnd, GWL_USERDATA)
 		as *mut (AppHandle<R>, Box<SingleInstanceCallback<R>>);
+
 	let (app_handle, callback) = &mut *data_ptr;
 
 	match msg {
 		WM_COPYDATA => {
 			let cds_ptr = lparam as *const COPYDATASTRUCT;
+
 			if (*cds_ptr).dwData == WMCOPYDATA_SINGLE_INSTANCE_DATA {
 				let data = CStr::from_ptr((*cds_ptr).lpData as _).to_string_lossy();
+
 				let mut s = data.split("|");
+
 				let cwd = s.next().unwrap();
+
 				let args = s.into_iter().map(|s| s.to_string()).collect();
+
 				callback(&app_handle, args, cwd.to_string());
 			}
+
 			1
 		},
 
 		WM_DESTROY => {
 			let _ = Box::from_raw(data_ptr);
+
 			0
 		},
 		_ => DefWindowProcW(hwnd, msg, wparam, lparam),
@@ -193,6 +210,7 @@ fn create_event_target_window<R:Runtime>(class_name:&[u16], window_name:&[u16]) 
 			GetModuleHandleW(std::ptr::null()),
 			std::ptr::null(),
 		);
+
 		SetWindowLongPtrW(
 			hwnd,
 			GWL_STYLE,
@@ -201,6 +219,7 @@ fn create_event_target_window<R:Runtime>(class_name:&[u16], window_name:&[u16]) 
 			// because of the LAYERED style.
 			(WS_VISIBLE | WS_POPUP) as isize,
 		);
+
 		hwnd
 	}
 }
