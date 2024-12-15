@@ -3,14 +3,14 @@
 use std::ffi::CStr;
 
 use tauri::{
-	plugin::{self, TauriPlugin},
 	AppHandle,
 	Manager,
 	RunEvent,
 	Runtime,
+	plugin::{self, TauriPlugin},
 };
 use windows_sys::Win32::{
-	Foundation::{CloseHandle, GetLastError, ERROR_ALREADY_EXISTS, HWND, LPARAM, LRESULT, WPARAM},
+	Foundation::{CloseHandle, ERROR_ALREADY_EXISTS, GetLastError, HWND, LPARAM, LRESULT, WPARAM},
 	System::{
 		DataExchange::COPYDATASTRUCT,
 		LibraryLoader::GetModuleHandleW,
@@ -22,10 +22,10 @@ use windows_sys::Win32::{
 		DefWindowProcW,
 		DestroyWindow,
 		FindWindowW,
-		RegisterClassExW,
-		SendMessageW,
 		GWL_STYLE,
 		GWL_USERDATA,
+		RegisterClassExW,
+		SendMessageW,
 		WINDOW_LONG_PTR_INDEX,
 		WM_COPYDATA,
 		WM_DESTROY,

@@ -1,4 +1,4 @@
-use tauri::{plugin::TauriPlugin, AppHandle, Manager, Runtime};
+use tauri::{AppHandle, Manager, Runtime, plugin::TauriPlugin};
 
 #[cfg(target_os = "windows")]
 #[path = "platform_impl/windows.rs"]

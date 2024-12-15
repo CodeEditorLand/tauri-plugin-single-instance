@@ -3,12 +3,12 @@
 use std::sync::Arc;
 
 use tauri::{
-	plugin::{self, TauriPlugin},
 	AppHandle,
 	Config,
 	Manager,
 	RunEvent,
 	Runtime,
+	plugin::{self, TauriPlugin},
 };
 use zbus::{
 	blocking::{Connection, ConnectionBuilder},

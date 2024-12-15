@@ -1,9 +1,9 @@
 #![cfg(target_os = "macos")]
 
 use tauri::{
-	plugin::{self, TauriPlugin},
 	Manager,
 	Runtime,
+	plugin::{self, TauriPlugin},
 };
 
 use crate::SingleInstanceCallback;
