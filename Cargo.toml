@@ -1,18 +1,31 @@
-[package]
-name = "tauri-plugin-single-instance"
-description = "Ensure a single instance of your tauri app is running."
-version = "0.0.0"
-authors = ["Tauri Programme within The Commons Conservancy"]
-license = "Apache-2.0 OR MIT"
-edition = "2021"
-rust-version = "1.60"
-exclude = ["/examples"]
-
 [dependencies]
 tauri = { version = "1" }
 
+[lib]
+path = "Source/lib.rs"
+
+[package]
+authors = ["Tauri Programme within The Commons Conservancy"]
+description = "Ensure a single instance of your tauri app is running."
+edition = "2021"
+exclude = ["/examples"]
+license-file = "LICENSE"
+name = "tauri-plugin-single-instance"
+rust-version = "1.60"
+version = "0.0.0"
+
+[target]
+
+[target.'cfg(target_os = "linux")']
+
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus = "3"
+
+[target.'cfg(target_os = "windows")']
+
+[target.'cfg(target_os = "windows")'.dependencies]
+
 [target.'cfg(target_os = "windows")'.dependencies.windows-sys]
-version = "0.42"
 features = [
     "Win32_System_Threading",
     "Win32_System_DataExchange",
@@ -22,6 +35,4 @@ features = [
     "Win32_System_LibraryLoader",
     "Win32_Graphics_Gdi",
 ]
-
-[target.'cfg(target_os = "linux")'.dependencies]
-zbus = "3"
+version = "0.42"

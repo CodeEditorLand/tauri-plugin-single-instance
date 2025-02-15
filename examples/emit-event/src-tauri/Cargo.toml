@@ -1,21 +1,21 @@
-[package]
-name = "emit-event-app"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["You"]
-repository = ""
-edition = "2021"
-rust-version = "1.57"
-
-[dependencies]
-serde_json = "1.0"
-serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1", features = ["api-all", "cli"] }
-tauri-plugin-single-instance = { path = "../../../" }
-
 [build-dependencies]
 tauri-build = { version = "1", features = [] }
 
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tauri = { version = "1", features = ["api-all", "cli"] }
+tauri-plugin-single-instance = { path = "../../../" }
+
 [features]
-default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
+default = ["custom-protocol"]
+
+[package]
+authors = ["You"]
+description = "A Tauri App"
+edition = "2021"
+name = "emit-event-app"
+repository = ""
+rust-version = "1.57"
+version = "0.1.0"
