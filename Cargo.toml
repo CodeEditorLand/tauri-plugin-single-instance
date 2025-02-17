@@ -1,5 +1,5 @@
 [dependencies]
-tauri = { version = "1" }
+tauri = { version = "2" }
 
 [lib]
 path = "Source/lib.rs"
@@ -7,11 +7,11 @@ path = "Source/lib.rs"
 [package]
 authors = ["Tauri Programme within The Commons Conservancy"]
 description = "Ensure a single instance of your tauri app is running."
-edition = "2021"
+edition = "2024"
 exclude = ["/examples"]
 license-file = "LICENSE"
-name = "tauri-plugin-single-instance"
-rust-version = "1.60"
+name = "tauri-plugin-single-instance-read-only"
+rust-version = "1.85.0"
 version = "0.0.0"
 
 [target]
@@ -19,7 +19,7 @@ version = "0.0.0"
 [target.'cfg(target_os = "linux")']
 
 [target.'cfg(target_os = "linux")'.dependencies]
-zbus = "3"
+zbus = "5"
 
 [target.'cfg(target_os = "windows")']
 
@@ -35,4 +35,4 @@ features = [
     "Win32_System_LibraryLoader",
     "Win32_Graphics_Gdi",
 ]
-version = "0.42"
+version = "0.59"
